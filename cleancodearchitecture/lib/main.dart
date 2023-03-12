@@ -1,69 +1,108 @@
+import 'package:cleancodearchitecture/bloc/blocapp.dart';
 import 'package:flutter/material.dart';
 
+import 'basics/singlechildscrolview.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: LearningPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
+class LearningPage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LearningPage> createState() => _LearningPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class _LearningPageState extends State<LearningPage> {
+  String title = "My Home page";
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+        child: Container (
+          color: Colors.green,
+          width: 500,
+          height: 300,
+          margin: EdgeInsets.only(left: 20, top: 20),
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Image.network(
+                    "http://picsum.photos/200",
+                    height: 200,
+                    width: 200,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      debugPrint('single tapped');
+                    },
+                    onDoubleTap: () {
+                      debugPrint ('on double tap');
+                    },
+                    onLongPress: (){
+                      debugPrint ('on long tap');
+                    },
+
+                    child: RotatedBox(
+                      quarterTurns: 0,
+                      child: Text (
+                        title,
+                        // textDirection: TextDirection.rtl,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(onPressed:
+                  () {
+                    debugPrint("You clicked me!");
+                    title = DateTime.now().toString();
+
+                    setState(() {
+
+                    });
+
+                  }, child: Text(
+                    "Buton"
+                  )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextField(
+                    onChanged: (value) {
+                      title = value;
+                      debugPrint(value);
+                      setState(() {
+
+                      });
+                    },
+                    ),
+                ],
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
